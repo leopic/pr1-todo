@@ -1,0 +1,55 @@
+<div class="col-md-8 col-md-offset-2">
+    <ol class="breadcrumb">
+        <li><a class="active">Lista</a></li>
+    </ol>
+
+    <div class="page-header text-center">
+        <h1>Mis Pendientes <small ng-show="lista.length">total: {{lista.length}}</small></h1>
+    </div>
+    <div class="row">
+        <form ng-submit="agregarPendiente()" name="pendienteForm" novalidate autocomplete="off" class="col-md-4">
+            <div class="form-group">
+                <input type="text" ng-model="pendiente.titulo" required name="titulo"
+                       class="form-control input-lg" placeholder="Titulo" />
+            </div>
+            <p class="alert alert-danger"
+               ng-show="!pendiente.titulo && pendienteForm.titulo.$touched && !pendienteForm.$submitted">
+                Por favor llene este campo.
+            </p>
+            <div class="form-group">
+                <textarea ng-model="pendiente.descripcion" class="form-control input-lg" placeholder="Descripcion"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="date" ng-model="pendiente.fecha" class="form-control input-lg" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar" class="btn btn-info btn-lg btn-block" ng-disabled="pendienteForm.$invalid"/>
+            </div>
+        </form>
+
+        <div class="col-md-8">
+            <h3 ng-show="!lista.length">No tiene pendientes.</h3>
+            <ul ng-if="lista.length" class="list-group">
+                <li ng-repeat="pendiente in lista | orderBy:null:true" class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h4>
+                                <a ng-href="#/detalle/{{pendiente.id}}">
+                                    {{pendiente.titulo}} <small ng-if="pendiente.fecha">{{pendiente.fecha | date:'shortDate'}}</small>
+                                </a>
+                            </h4>
+                            <p ng-if="pendiente.descripcion">{{pendiente.descripcion}}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                <a class="btn btn-primary btn-sm pull-right btn-block" ng-click="removerPendiente($index)">
+                                    Remover
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
